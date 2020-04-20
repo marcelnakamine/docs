@@ -283,7 +283,6 @@ Change the role or status of an user inside a team member. To change it send a `
 | ------------- | ---------------------------------------------------------- | -------- | ----------------------------------------------------------------- |
 | **role**      | <HelpLink href="#api-basics/types">Enum</HelpLink>         | No       | The new role of the team member, it could be `OWNER` or `MEMBER`. |
 | **confirmed** | <HelpLink href="#api-basics/types">Boolean</HelpLink>      | No       | Accept a user that requested access to the team.                  |
-| **declined**  | <HelpLink href="#api-basics/types">Boolean</HelpLink>      | No       | Prevent a user from joining the team or requesting access.        |
 
 ##### Example Request
 
@@ -306,7 +305,8 @@ Change the role or status of an user inside a team member. To change it send a `
 Invite a user to join the team specified in the URL. To use it, send a `POST` request with the user's email address in the body.
 
 <Note>
-  The authenticated user needs to be an <InlineCode>OWNER</InlineCode> in order to be able to successfully invoke this endpoint.
+  The authenticated user needs to be an <InlineCode>OWNER</InlineCode> in order
+  to be able to successfully invoke this endpoint.
 </Note>
 
 #### Request Parameters
