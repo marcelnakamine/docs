@@ -303,10 +303,10 @@ Change the role or status of an user inside a team member. To change it send a `
 
 <Endpoint method="POST" url="/v1/teams/:id/members" />
 
-Invite a user to join the team specified in the URL. To use it send a `POST` request with the user email in the body.
+Invite a user to join the team specified in the URL. To use it, send a `POST` request with the user's email address in the body.
 
 <Note>
-  You need to be <InlineCode>OWNER</InlineCode> to use it.
+  The authenticated user needs to be an <InlineCode>OWNER</InlineCode> in order to be able to successfully invoke this endpoint.
 </Note>
 
 #### Request Parameters
@@ -341,14 +341,14 @@ Invite a user to join the team specified in the URL. To use it send a `POST` req
 
 <Code lang="json">{`{
   "uid": "kr1PsOIzqEL5Xg6M4VZcZosf",
-  "username": "an-user"
+  "username": "acme"
 }`}</Code>
 
 ### Request to join to a team
 
 <Endpoint method="POST" url="/v1/teams/:id/request" />
 
-Request to join to a team as a member. An <InlineCode>OWNER</InlineCode> of the team can accept or decline this request.
+Request to join a team as a <InlineCode>MEMBER</InlineCode>. An <InlineCode>OWNER</InlineCode> of the team can accept or decline this request.
 
 ##### Example Request
 
