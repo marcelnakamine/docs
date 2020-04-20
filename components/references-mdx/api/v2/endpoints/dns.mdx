@@ -12,25 +12,56 @@ export const meta = {
 
 ### List all the DNS records of a domain
 
-<Endpoint method="GET" url="/v2/domains/:domain/records" />
+<Endpoint method="GET" url="/v3/domains/:domain/records" />
 
-Get a list of DNS records created for a domain name specified in the URL.
+Get a list of DNS records created for a domain name specified in the URL. By default it returns 20 records if no `limit` is provided. The rest can be retrieved using the pagination options described below.
+
+#### Request Query Parameters
+
+The response of this API can be controlled with the following optional query parameters.
+
+| Key       | Description                                           |
+| --------- | ----------------------------------------------------- |
+| **limit** | Maximum number of records to list from a request.     |
+| **since** | Get records created after this JavaScript timestamp.  |
+| **until** | Get records created before this JavaScript timestamp. |
 
 #### Response Parameters
 
-| Key         | <HelpLink href="#api-basics/types" hasIcon>Type</HelpLink> | Description                                                                                                     |
-| ----------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **id**      | <HelpLink href="#api-basics/types">ID</HelpLink>           | The unique ID of the DNS record. Always prepended with `rec_`.                                                  |
-| **type**    | <HelpLink href="#api-basics/types">Enum</HelpLink>         | The type of record, it could be [any valid DNS record](https://en.wikipedia.org/wiki/List_of_DNS_record_types). |
-| **name**    | <HelpLink href="#api-basics/types">String</HelpLink>       | A subdomain name or an empty string for the root domain.                                                        |
-| **value**   | <HelpLink href="#api-basics/types">String</HelpLink>       | The record value.                                                                                               |
-| **creator** | <HelpLink href="#api-basics/types">String</HelpLink>       | The ID of the user who created the record or `system` if the record is an automatic record.                     |
-| **created** | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when the record was created.                                                          |
-| **updated** | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when we created the deployment.                                                       |
+| Key            | <HelpLink href="#api-basics/types" hasIcon>Type</HelpLink> | Description                    |
+| -------------- | ---------------------------------------------------------- | ------------------------------ |
+| **records**    | <HelpLink href="#api-basics/types">List</HelpLink>         | The list of active records.    |
+| **pagination** | <HelpLink href="#api-basics/types">Map</HelpLink>          | A map with pagination options. |
+
+#### Record
+
+This is the format of each item in the `records` list.
+
+| Key           | <HelpLink href="#api-basics/types" hasIcon>Type</HelpLink> | Description                                                                                                     |
+| ------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **id**        | <HelpLink href="#api-basics/types">ID</HelpLink>           | The unique ID of the DNS record. Always prepended with `rec_`.                                                  |
+| **type**      | <HelpLink href="#api-basics/types">Enum</HelpLink>         | The type of record, it could be [any valid DNS record](https://en.wikipedia.org/wiki/List_of_DNS_record_types). |
+| **name**      | <HelpLink href="#api-basics/types">String</HelpLink>       | A subdomain name or an empty string for the root domain.                                                        |
+| **value**     | <HelpLink href="#api-basics/types">String</HelpLink>       | The record value.                                                                                               |
+| **creator**   | <HelpLink href="#api-basics/types">String</HelpLink>       | The ID of the user who created the record or `system` if the record is an automatic record.                     |
+| **created**   | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when the record was created.                                                          |
+| **updated**   | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when the record was updated                                                           |
+| **createdAt** | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when the record was created.                                                          |
+| **updatedAt** | <HelpLink href="#api-basics/types">String</HelpLink>       | A timestamp with the date when the record was updated                                                           |
+
+#### Pagination
+
+This is the format of the `pagination` map.
+
+| Key       | <HelpLink href="#api-basics/types" hasIcon>Type</HelpLink> | Description                                                    |
+| --------- | ---------------------------------------------------------- | -------------------------------------------------------------- |
+| **count** | <HelpLink href="#api-basics/types">Number</HelpLink>       | The number of returned records.                                |
+| **next**  | <HelpLink href="#api-basics/types">Date</HelpLink>         | The JavaScript timestamp to fetch the next set of records.     |
+| **prev**  | <HelpLink href="#api-basics/types">Date</HelpLink>         | The JavaScript timestamp to fetch the previous set of records. |
 
 ##### Example Request
 
-<Request url="https://api.zeit.co/v2/domains/zeit.rocks/records" auth />
+<Request url="https://api.zeit.co/v3/domains/zeit.rocks/records" auth />
 
 ##### Example Response
 
@@ -44,7 +75,9 @@ Get a list of DNS records created for a domain name specified in the URL.
       "value": "alias.zeit.co",
       "creator": "EvQtLv2F0FvfB5Vx4eK0R3Mf",
       "created": "1474631621542",
-      "updated": null
+      "createdAt": "1474631621542",
+      "updated": null,
+      "updatedAt": null
     },
     {
       "id": "rec_Pxo2HEfutmlIYECtTE4SpDzY",
@@ -54,9 +87,16 @@ Get a list of DNS records created for a domain name specified in the URL.
       "value": "alias.zeit.co",
       "creator": "system",
       "created": "1474631619960",
-      "updated": null
+      "createdAt": "1474631619960",
+      "updated": null,
+      "updatedAt": null
     }
-  ]
+  ],
+  "pagination": {
+    "count": 2,
+    "next": 1474631619960,
+    "prev": 1474631621542
+  }
 }`}</Code>
 
 ### Create a new DNS record
